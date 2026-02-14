@@ -1,0 +1,25 @@
+{
+  "auth": "zef:librasteve",
+  "authors": [
+    "librasteve"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "blah blah blah",
+  "license": "Artistic-2.0",
+  "name": "Air::Plugin::Asciinema",
+  "perl": "6.d",
+  "provides": {
+    "Air::Plugin::Asciinema": "lib/Air/Plugin/Asciinema.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}

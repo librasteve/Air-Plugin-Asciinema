@@ -1,0 +1,6 @@
+use Test;
+use Air::Plugin::Asciinema;
+
+pass "replace me";
+
+done-testing;
