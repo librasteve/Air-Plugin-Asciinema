@@ -1,32 +1,80 @@
-unit class Air::Plugin::Asciinema;
+use Air::Functional;
+use Hilite;
 
+role Air::Plugin::Hilite does Tag {
 
-=begin pod
+    #| code to be highlited
+    has Str $.code;
+    #| language (from highlight.js + haskell + raku + rakudoc)
+    has $.lang = 'raku';
 
-=head1 NAME
+    #! make a stub to consume
+    my class Template {
+        my class Globals {
+            has %.helper;
 
-Air::Plugin::Asciinema - blah blah blah
+            method escape {
+                use HTML::Escape;
+                &escape-html;
+            }
+        }
 
-=head1 SYNOPSIS
+        has $.globals = Globals.new;
 
-=begin code :lang<raku>
+        method warnings {
+            $!globals.helper<add-to-warnings>;
+        }
+    }
+    my class Receptacle {
+        has %.data;
 
-use Air::Plugin::Asciinema;
+        method add-templates(*@a, *%h) {}
+        method add-data($ns, %config) {
+            %!data{$ns} = %config;
+        }
+    }
 
-=end code
+    has $!tmpl = Template.new;
+    has $!rctl = Receptacle.new;
+    has $!hltr = Hilite.new: :css-lib<pico>;
 
-=head1 DESCRIPTION
+    #| script, styles from Hilite.rakumod
+    has @!js-links;     #list of script src urls
+    has $!script;
+    has @!css-links;    #list of link href urls
+    has $.scss;
 
-Air::Plugin::Asciinema is ...
+    submethod TWEAK {
+        $!hltr.enable: $!rctl;
 
-=head1 AUTHOR
+        @!js-links   = $!rctl.data<hilite><js-link>.map: *[0];
+        @!js-links  .= map: *.split('=')[1];     #pick the url
+        @!js-links  .= map: *.substr(1,*-1);     #rm quote marks
+        $!script     = $!rctl.data<hilite><js>[0][0];
 
-librasteve <librasteve@furnival.net>
+        @!css-links  = $!rctl.data<hilite><css-link-dark>.map: *[0];
+        @!css-links .= map: *.split('=')[1];     #pick the url
+        @!css-links .= map: *.substr(1,*-1);     #rm quote marks
+        $!scss       = $!rctl.data<hilite><scss>[0][0];
+    }
 
-=head1 COPYRIGHT AND LICENSE
+    #| .new positional takes Str $code
+    multi method new(Str $code, *%h) {
+        self.bless:  :$code, |%h;
+    }
 
-Copyright 2026 librasteve
+    method warnings { note $!tmpl.warnings }
 
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+    multi method HTML {
+        my %prm = :contents($!code), :$!lang, :!label;
+        $!hltr.templates<code>(%prm, $!tmpl);
+    }
 
-=end pod
+    method SCRIPT-LINKS { @!js-links }
+    method SCRIPT       { $!script }
+
+    method STYLE-LINKS  { @!css-links }
+    method SCSS         { $!scss }
+}
+
+sub hilite(*@a, *%h) is export { Air::Plugin::Hilite.new( |@a, |%h ) };
