@@ -1,80 +1,79 @@
-use Air::Functional;
-use Hilite;
+use Air::Base;
+use Air::Functional :BASE;
+use Air::Component;
 
-role Air::Plugin::Hilite does Tag {
+role Air::Plugin::Asciinema does Component {
+    #.cast file
+    has Str $.filename;
 
-    #| code to be highlited
-    has Str $.code;
-    #| language (from highlight.js + haskell + raku + rakudoc)
-    has $.lang = 'raku';
-
-    #! make a stub to consume
-    my class Template {
-        my class Globals {
-            has %.helper;
-
-            method escape {
-                use HTML::Escape;
-                &escape-html;
-            }
-        }
-
-        has $.globals = Globals.new;
-
-        method warnings {
-            $!globals.helper<add-to-warnings>;
-        }
+    #| .new positional takes Str $filename
+    multi method new(Str $filename, *%h) {
+        self.bless:  :$filename, |%h;
     }
-    my class Receptacle {
-        has %.data;
-
-        method add-templates(*@a, *%h) {}
-        method add-data($ns, %config) {
-            %!data{$ns} = %config;
-        }
-    }
-
-    has $!tmpl = Template.new;
-    has $!rctl = Receptacle.new;
-    has $!hltr = Hilite.new: :css-lib<pico>;
-
-    #| script, styles from Hilite.rakumod
-    has @!js-links;     #list of script src urls
-    has $!script;
-    has @!css-links;    #list of link href urls
-    has $.scss;
-
-    submethod TWEAK {
-        $!hltr.enable: $!rctl;
-
-        @!js-links   = $!rctl.data<hilite><js-link>.map: *[0];
-        @!js-links  .= map: *.split('=')[1];     #pick the url
-        @!js-links  .= map: *.substr(1,*-1);     #rm quote marks
-        $!script     = $!rctl.data<hilite><js>[0][0];
-
-        @!css-links  = $!rctl.data<hilite><css-link-dark>.map: *[0];
-        @!css-links .= map: *.split('=')[1];     #pick the url
-        @!css-links .= map: *.substr(1,*-1);     #rm quote marks
-        $!scss       = $!rctl.data<hilite><scss>[0][0];
-    }
-
-    #| .new positional takes Str $code
-    multi method new(Str $code, *%h) {
-        self.bless:  :$code, |%h;
-    }
-
-    method warnings { note $!tmpl.warnings }
 
     multi method HTML {
-        my %prm = :contents($!code), :$!lang, :!label;
-        $!hltr.templates<code>(%prm, $!tmpl);
+
+        my $player = qq:to/END/;
+            AsciinemaPlayer.create(
+                \'$.filename\',
+                document.getElementById(\'$.url-path\'),
+                \{
+                    autoPlay: true,
+                    preload: true,
+                    fit: 'width',
+                    theme: 'asciinema',
+                    loop: true,
+                    speed: 1.3,
+                    rows: 15,
+                    cols: 80,
+                    fontSize: \'16px\'
+                \}
+            );
+            END
+
+        div [
+            div :id($.url-path);
+            script $player;
+        ];
     }
 
-    method SCRIPT-LINKS { @!js-links }
-    method SCRIPT       { $!script }
-
-    method STYLE-LINKS  { @!css-links }
-    method SCSS         { $!scss }
+    method SCRIPT-LINKS { 'https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.min.js' }
+    method STYLE-LINKS  { 'https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.css' }
 }
 
-sub hilite(*@a, *%h) is export { Air::Plugin::Hilite.new( |@a, |%h ) };
+sub asciinema(*@a, *%h) is export { Air::Plugin::Asciinema.new( |@a, |%h ) };
+
+#`[
+use Air::Functional :BASE;
+use Air::Base;
+
+my $page = Page.new;
+
+$page.html.head.scripts.append: Script.new: :src<https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.min.js>;
+
+$page.html.head.links.append: Link.new: :rel<stylesheet>, :href<https://cdn.jsdelivr.net/npm/asciinema-player@3/dist/bundle/asciinema-player.css>;
+
+my $player = q:to/END/;
+    AsciinemaPlayer.create(
+        'static/demos/demo4.cast',
+        document.getElementById('player'),
+        {
+            autoPlay: true,
+            preload: true,
+            fit: 'width',
+            theme: 'asciinema',
+            loop: true,
+            speed: 1.3
+        }
+    );
+END
+
+$page.main =
+    main [
+        p el 'simple-greeting', :name<John>, [span 'yo'; span 'ho'];
+        div :id<player>;
+        script $player;
+    ];
+
+site($page).serve;
+#]

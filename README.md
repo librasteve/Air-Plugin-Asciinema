@@ -1,29 +1,13 @@
-NAME
-====
+[![Actions Status](https://github.com/librasteve/Air-Plugin-Asciinema/actions/workflows/test.yml/badge.svg)](https://github.com/librasteve/Air-Plugin-Asciinema/actions)
 
-Air::Plugin::Asciinema - blah blah blah
-
-SYNOPSIS
-========
+### method new
 
 ```raku
-use Air::Plugin::Asciinema;
+method new(
+    Str $filename,
+    *%h
+) returns Mu
 ```
 
-DESCRIPTION
-===========
-
-Air::Plugin::Asciinema is ...
-
-AUTHOR
-======
-
-librasteve <librasteve@furnival.net>
-
-COPYRIGHT AND LICENSE
-=====================
-
-Copyright 2026 Stephen Roe.
-
-This library is free software; you can redistribute it and/or modify it under the Artistic License 2.0.
+.new positional takes Str $filename
 

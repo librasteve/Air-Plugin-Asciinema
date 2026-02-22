@@ -7,16 +7,15 @@
   ],
   "depends": [
   ],
-  "description": "blah blah blah",
+  "description": "Asciinema player plugin",
   "license": "Artistic-2.0",
   "name": "Air::Plugin::Asciinema",
-  "perl": "6.d",
   "provides": {
     "Air::Plugin::Asciinema": "lib/Air/Plugin/Asciinema.rakumod"
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/librasteve/Air-Plugin-Asciinema.git",
   "tags": [
   ],
   "test-depends": [
