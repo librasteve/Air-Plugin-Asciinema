@@ -1,24 +1,18 @@
 {
-  "auth": "zef:librasteve",
-  "authors": [
-    "librasteve"
-  ],
-  "build-depends": [
-  ],
-  "depends": [
-  ],
-  "description": "Asciinema player plugin",
-  "license": "Artistic-2.0",
-  "name": "Air::Plugin::Asciinema",
-  "provides": {
-    "Air::Plugin::Asciinema": "lib/Air/Plugin/Asciinema.rakumod"
-  },
-  "resources": [
-  ],
-  "source-url": "https://github.com/librasteve/Air-Plugin-Asciinema.git",
-  "tags": [
-  ],
-  "test-depends": [
-  ],
-  "version": "0.0.1"
+    "name": "Air::Plugin::Asciinema",
+    "description": "Asciinema player plugin",
+    "version": "0.0.1",
+    "authors": [
+        "librasteve"
+    ],
+    "auth": "zef:librasteve",
+    "depends": [
+        "Air"
+    ],
+    "build-depends": [],
+    "provides": {
+        "Air::Plugin::Asciinema": "lib/Air/Plugin/Asciinema.rakumod"
+    },
+    "license": "Artistic-2.0",
+    "source-url": "https://github.com/librasteve/Air-Plugin-Asciinema.git"
 }
