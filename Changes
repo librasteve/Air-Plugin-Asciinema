@@ -2,5 +2,8 @@ Revision history for Air::Plugin::Asciinema
 
 {{$NEXT}}
 
+0.0.2  2026-02-23T12:33:50Z
+    - improve README
+
 0.0.1  2026-02-22T21:45:31Z
     - Initial version
