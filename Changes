@@ -2,6 +2,9 @@ Revision history for Air::Plugin::Asciinema
 
 {{$NEXT}}
 
+0.0.3  2026-03-05T19:37:27Z
+    - add $.rows, $.cols
+
 0.0.2  2026-02-23T12:33:50Z
     - improve README
 

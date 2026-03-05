@@ -6,6 +6,9 @@ role Air::Plugin::Asciinema does Component {
     #.cast file
     has Str $.filename;
 
+    has $.rows = 12;
+    has $.cols = 60;
+
     #| .new positional takes Str $filename
     multi method new(Str $filename, *%h) {
         self.bless:  :$filename, |%h;
@@ -24,12 +27,15 @@ role Air::Plugin::Asciinema does Component {
                     theme: 'asciinema',
                     loop: true,
                     speed: 1.3,
-                    rows: 15,
-                    cols: 80,
-                    fontSize: \'16px\'
+                    rows: %ROWS%,
+                    cols: %COLS%
                 \}
             );
             END
+
+        $player ~~ s:g/'%ROWS%'/$!rows/;
+        $player ~~ s:g/'%COLS%'/$!cols/;
+
 
         div [
             div :id($.url-path);
@@ -42,3 +48,4 @@ role Air::Plugin::Asciinema does Component {
 }
 
 sub asciinema(*@a, *%h) is export { Air::Plugin::Asciinema.new( |@a, |%h ) };
+
