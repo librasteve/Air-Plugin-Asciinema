@@ -7,7 +7,7 @@ role Air::Plugin::Asciinema does Component {
     has Str $.filename;
 
     has $.rows = 12;
-    has $.cols = 60;
+    has $.cols = 64;
 
     #| .new positional takes Str $filename
     multi method new(Str $filename, *%h) {
