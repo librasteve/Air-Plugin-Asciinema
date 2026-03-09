@@ -2,6 +2,9 @@ Revision history for Air::Plugin::Asciinema
 
 {{$NEXT}}
 
+0.0.5  2026-03-09T13:28:57Z
+    - add responsive
+
 0.0.4  2026-03-06T21:27:29Z
     - default cols = 64
 
