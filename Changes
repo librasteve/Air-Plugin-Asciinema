@@ -1,6 +1,8 @@
 Revision history for Air::Plugin::Asciinema
 
 {{$NEXT}}
+
+0.0.6  2026-03-11T19:16:44Z
     - tweak responsive
 
 0.0.5  2026-03-09T13:28:57Z
