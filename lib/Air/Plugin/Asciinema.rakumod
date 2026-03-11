@@ -8,7 +8,7 @@ role Air::Plugin::Asciinema does Component {
 
     has $.rows = 12;
     has $.cols = 64;
-    has %.responsive = (:cutoff(768), :min-height-lg(320), :min-height-sm(170));
+    has %.responsive = (:cutoff(768), :min-height-lg(385), :min-height-sm(170));
 
     #| .new positional takes Str $filename
     multi method new(Str $filename, *%h) {
