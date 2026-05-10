@@ -1,12 +1,8 @@
 [![Actions Status](https://github.com/librasteve/Air-Plugin-Asciinema/actions/workflows/test.yml/badge.svg)](https://github.com/librasteve/Air-Plugin-Asciinema/actions)
 
-NAME
-====
+# Air::Plugin::Asciinema
 
-Air::Plugin::Asciinema
-
-SYNOPSIS
-========
+## Synopsis
 
 ```raku
 #!/usr/bin/env raku
@@ -33,8 +29,7 @@ site :register[Air::Plugin::Asciinema.new],
 $site.serve;
 ```
 
-DESCRIPTION
-===========
+## Description
 
 Air::Plugin::Asciinema is a plugin for the Raku [Air module](https://raku.land/zef:librasteve/Air)
 that implements the [Asciinema Player](https://docs.asciinema.org/manual/player/).
@@ -49,13 +44,23 @@ asciinema rec  -q -i 1 demoN.cast --overwrite
 asciinema play -q -s 2 demoN.cast
 ```
 
-AUTHOR
-======
+## Installation
+
+If you already have [Air](https://raku.land/zef:librasteve/Air) installed, then:
+
+ - `zef install Air::Plugin::Asciinema`
+
+Otherwise, follow the Air::Examples [Getting Started](https://github.com/librasteve/Air-Examples/blob/main/README.md#getting-started)
+
+ - `cd Air-Examples`
+ - `raku bin/22-asciinema.raku`
+ - point browser to `http://localhost:3000`
+
+## Author
 
 librasteve <librasteve@furnival.net>
 
-COPYRIGHT AND LICENSE
-=====================
+## Copyright and License
 
 Copyright 2026 Stephen Roe.
 
