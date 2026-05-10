@@ -46,7 +46,7 @@ asciinema play -q -s 2 demoN.cast
 
 ## Installation
 
-If you already have [Air](https://raku.land/zef:librasteve/Air) installed, then:
+If you already have [Air](https://raku.land/zef:librasteve/Air) working, then:
 
  - `zef install Air::Plugin::Asciinema`
 
